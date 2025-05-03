@@ -5,6 +5,7 @@ import  generatePid  from "../utils/generatePid.js";
 import { Pid } from "../models/pidSchema.js";
 import { sendEmail } from "../utils/sendEmail.js";
 import errorHandler from '../middleware/error.js'
+import jwt from 'jsonwebtoken';
 
 
 
