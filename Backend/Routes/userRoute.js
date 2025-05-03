@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post("/signup",signup);
 router.post("/login",login);
-router.post("/logout",isAuthenticated,logout);
+router.post("/logout",isAuthenticatedUser,logout);
 router.get("/admin/getall/:collegeName",getByCollegeName);
 router.get("/admin/user/getall",getALLUser);
 
