@@ -21,7 +21,7 @@ import { catchAsyncError } from "./catchAsyncError.js";
 import errorHandler from "./error.js";
 import jwt from 'jsonwebtoken';
 
-export const isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
+export const isAuthenticated = catchAsyncError(async (req, res, next) => {
   let token;
 
   // ✅ Try to get token from cookies
