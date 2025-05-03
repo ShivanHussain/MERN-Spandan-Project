@@ -4,10 +4,10 @@ import { addParticipate, getAllGroupEvents, getByCollegeName, getByEventName, ge
 
 const router = express.Router();
 
-router.post("/participate/:id",isAuthenticated,registered);
-router.post("/add/:id",isAuthenticated,addParticipate);
-router.put("/admin/update/:tid",isAuthenticated,updateGroupEventByPid);
-router.get("/admin/getall",isAuthenticated,getAllGroupEvents);
+router.post("/participate/:id",registered);
+router.post("/add/:id",addParticipate);
+router.put("/admin/update/:tid",updateGroupEventByPid);
+router.get("/admin/getall",getAllGroupEvents);
 
 
 router.get("/admin/tid/:tid", getByTID);
