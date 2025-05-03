@@ -4,8 +4,8 @@ import { allEvent, registered } from "../controller/eventController.js";
 
 const router = express.Router();
 
-router.post("/registered",isAuthenticated,registered);
-router.get("/allEvent",isAuthenticated,allEvent);
+router.post("/registered",registered);
+router.get("/allEvent",allEvent);
 
 
 export default router;
