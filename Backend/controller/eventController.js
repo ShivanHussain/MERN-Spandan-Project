@@ -7,6 +7,18 @@ export const registered = catchAsyncError(async(req, res, next)=>{
 
     const { eventname, eventtype, heading1, heading2, heading3, heading4 } =req.body;
 
+    const { token } = req.cookies;
+  console.log("Token",token);
+  if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+  }
+    
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    req.User = await User.findById(decoded.id);
+
+    
+
     if(! eventname || !eventtype ||  !heading1 || !heading2 || !heading3 || !heading4){
         return next(new errorHandler("All fields are Required",400));
     };
@@ -26,6 +38,16 @@ export const registered = catchAsyncError(async(req, res, next)=>{
 
 //get all event 
 export const allEvent = catchAsyncError(async(req, res, next)=>{
+
+    const { token } = req.cookies;
+  console.log("Token",token);
+  if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+  }
+    
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    req.User = await User.findById(decoded.id);
 
     try{
         const event = await Event.find().sort({createdAt: -1});
