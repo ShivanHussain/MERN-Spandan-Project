@@ -128,6 +128,15 @@ export const login = catchAsyncError(async (req, res, next) => {
 
 // logout the user with cookie
 export const logout = catchAsyncError(async(req, res, next)=>{ 
+  const { token } = req.cookies;
+  console.log("Token",token);
+  if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+  }
+    
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    req.User = await User.findById(decoded.id);
     res.status(200).cookie("token","",{
         expires:new Date(Date.now()),
         httpOnly: true,
