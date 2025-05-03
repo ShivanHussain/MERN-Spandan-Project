@@ -4,9 +4,9 @@ import { getAllSoloEvents,  getByCollegeName,  getByEventName,  getByEventType, 
 
 const router = express.Router();
 
-router.post("/participate/:id",isAuthenticated, registered);
-router.get("/admin/getall",isAuthenticated, getAllSoloEvents);
-router.put("/admin/update/:pid",isAuthenticated, updateSoloEventByPid);
+router.post("/participate/:id",registered);
+router.get("/admin/getall",getAllSoloEvents);
+router.put("/admin/update/:pid",updateSoloEventByPid);
 
 
 // GET /api/solo-events/eventName/:eventName
