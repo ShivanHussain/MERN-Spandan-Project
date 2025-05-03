@@ -1,6 +1,7 @@
 import { catchAsyncError } from "../middleware/catchAsyncError.js";
 import errorHandler from "../middleware/error.js";
 import { Event } from "../models/eventSchema.js";
+import jwt from 'jsonwebtoken';
 
 //add event
 export const registered = catchAsyncError(async(req, res, next)=>{
