@@ -6,6 +6,17 @@ import { Contact } from "../models/contactSchema.js";
 export const registered = catchAsyncError(async (req, res, next) => {
   let { name, email, message } = req.body;
 
+//verify jwt token
+  const { token } = req.cookies;
+  console.log("Token",token);
+  if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+  }
+    
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    req.User = await User.findById(decoded.id);
+
   // Trim inputs
   name = name?.trim();
   email = email?.trim();
