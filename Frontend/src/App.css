@@ -1,0 +1,15 @@
+@keyframes flameFlicker {
+    0%, 100% { text-shadow: 0 0 5px #fff6cc, 0 0 10px #997b05, 0 0 20px #ffcc00, 0 0 40px #ffcc00, 0 0 80px #ffaa00; }
+    50% { text-shadow: 0 0 10px #fff, 0 0 20px #ffb700, 0 0 30px #ffaa00, 0 0 60px #ba7a30, 0 0 100px #b55f25; }
+  }
+  
+  .ignite-glow {
+    color: #FFD700;
+    text-shadow:
+      0 0 5px #fff6cc,
+      0 0 10px #997b05,
+      0 0 20px #ffcc00,
+      0 0 40px #ffcc00,
+      0 0 80px #ffaa00;
+    animation: flameFlicker 2s infinite ease-in-out;
+  }
