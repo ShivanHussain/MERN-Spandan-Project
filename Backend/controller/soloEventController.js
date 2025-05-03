@@ -2,13 +2,24 @@ import { catchAsyncError } from "../middleware/catchAsyncError.js";
 import errorHandler from "../middleware/error.js";
 import { User } from "../models/userSchema.js";
 import { Event } from "../models/eventSchema.js";
-import { soloEventReg } from "../models/soloEventSchema.js"
+import { soloEventReg } from "../models/soloEventSchema.js";
+import jwt from 'jsonwebtoken';
 
 
 //Registered a solo Event
 export const registered = catchAsyncError(async (req, res, next) => {
   const { name, pid } = req.body;
   const { id: eventId } = req.params;
+
+  const { token } = req.cookies;
+  console.log("Token",token);
+  if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+  }
+    
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    req.User = await User.findById(decoded.id);
 
   console.log(req.body);
   //console.log(fullName);
@@ -62,6 +73,18 @@ export const registered = catchAsyncError(async (req, res, next) => {
 
 // GET all group event in database
 export const getAllSoloEvents = catchAsyncError(async (req, res, next) => {
+
+  const { token } = req.cookies;
+  console.log("Token",token);
+  if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+  }
+    
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    req.User = await User.findById(decoded.id);
+
+  
   const allGroups = await soloEventReg.find();
 
   if (!allGroups || allGroups.length === 0) {
@@ -81,6 +104,17 @@ export const getAllSoloEvents = catchAsyncError(async (req, res, next) => {
 export const updateSoloEventByPid = catchAsyncError(async (req, res, next) => {
   const { pid } = req.params;
   const updates = req.body;
+
+
+  const { token } = req.cookies;
+  console.log("Token",token);
+  if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+  }
+    
+  const decoded = jwt.verify(token, process.env.SECRET_KEY);
+
+    req.User = await User.findById(decoded.id);
 
   // Validate PID
   if (!pid) {
