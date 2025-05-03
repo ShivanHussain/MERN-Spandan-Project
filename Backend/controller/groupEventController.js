@@ -5,6 +5,7 @@ import { Event } from "../models/eventSchema.js";
 import { groupEventReg } from "../models/groupEventSchema.js"
 import generateTid from "../utils/generateTid.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import jwt from 'jsonwebtoken';
 
 //registered group event 
 export const registered = catchAsyncError(async (req, res, next) => {
@@ -12,7 +13,14 @@ export const registered = catchAsyncError(async (req, res, next) => {
     const { id } = req.params;
 
 
-    console.log(id);
+   // console.log(id);
+    //verify jwt token
+    const { token } = req.cookies;
+    if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+    }
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    req.User = await User.findById(decoded.id);
   
     // Validate team name
     if (!name) {
@@ -94,6 +102,15 @@ export const addParticipate = catchAsyncError(async(req, res, next)=>{
     const { id }=req.params;
     console.log(id);
 
+    //verify jwt token
+    const { token } = req.cookies;
+    if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+    }
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    req.User = await User.findById(decoded.id);
+    
+
     const { name, pid1, pid2, pid3, pid4, pid5 }=req.body;
 
 
@@ -133,6 +150,15 @@ export const updateGroupEventByPid = catchAsyncError(async (req, res, next) => {
   const { tid } = req.params;
   const updates = req.body;
 
+
+    //verify jwt token
+    const { token } = req.cookies;
+    if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+    }
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    req.User = await User.findById(decoded.id);
+
   // Validate
   if (!tid) {
     return next(new errorHandler("TID is required", 400));
@@ -162,6 +188,16 @@ export const updateGroupEventByPid = catchAsyncError(async (req, res, next) => {
 
 // GET all group events
 export const getAllGroupEvents = catchAsyncError(async (req, res, next) => {
+
+    //verify jwt token
+    const { token } = req.cookies;
+    if(!token){
+        return next(new errorHandler("User Not Authenticated!",400));
+    }
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
+    req.User = await User.findById(decoded.id);
+
+    
   const allGroups = await groupEventReg.find();
 
   if (!allGroups || allGroups.length === 0) {
