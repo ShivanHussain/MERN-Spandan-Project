@@ -16,11 +16,10 @@
 //     req.User = await User.findById(decoded.id);
 //     next();
 // });
-
-
-import ErrorHandler from "../utils/error.js";
-import catchAsyncError from "./catchAsyncError.js";
-import jwt from "jsonwebtoken";
+import { User } from "../models/userSchema.js";
+import { catchAsyncError } from "./catchAsyncError.js";
+import errorHandler from "./error.js";
+import jwt from 'jsonwebtoken';
 
 export const isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
   let token;
@@ -38,7 +37,7 @@ export const isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
   // ❌ If no token, throw error
   if (!token) {
     console.log("❌ No token received in cookies or headers.");
-    return next(new ErrorHandler("User Not Authenticated!", 400));
+    return next(new errorHandler("User Not Authenticated!", 400));
   }
 
   try {
@@ -51,6 +50,6 @@ export const isAuthenticatedUser = catchAsyncError(async (req, res, next) => {
     next();
   } catch (error) {
     console.log("❌ Invalid or expired token:", error.message);
-    return next(new ErrorHandler("Invalid or expired token!", 401));
+    return next(new errorHandler("Invalid or expired token!", 401));
   }
 });
