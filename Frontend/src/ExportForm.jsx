@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { exportToExcel } from "./exportToExcel";
+import { exportToExcel } from "./ExportToExcel.js";
 
 const ExportForm = () => {
   const [endpoint, setEndpoint] = useState("");
